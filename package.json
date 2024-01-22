@@ -1,22 +1,22 @@
 {
-  "name": "oidc-keycloak-sso",
+  "name": "oidc-authentik-sso",
   "version": "1.0.0",
-  "description": "WordPress must-use plugin to demo OpenID Connect Generic plugin features and integratation with Keycloak.",
+  "description": "WordPress must-use plugin to demo OpenID Connect Generic plugin features and integratation with Authentik.",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/timnolte/oidc-keycloak-sso.git"
+    "url": "git+https://github.com/timnolte/oidc-authentik-sso.git"
   },
   "keywords": [
     "oidc",
-    "keycloak",
+    "authentik",
     "sso",
     "OpenID"
   ],
-  "author": "Tim Nolte <tim.nolte@ndigitals.com>",
+  "author": "Mike van den Berge <mikevdberge@qhse-professionals.nl>",
   "license": "GPL-2.0+",
   "bugs": {
-    "url": "https://github.com/timnolte/oidc-keycloak-sso/issues"
+    "url": "https://github.com/qhse-professionals/oidc-authentik-sso/issues"
   },
-  "homepage": "https://github.com/timnolte/oidc-keycloak-sso#readme"
+  "homepage": "https://github.com/qhse-professionals/oidc-authentik-sso#readme"
 }
