@@ -22,17 +22,17 @@ if ( ! defined( 'WPINC' ) ) {
  *
  * @return string
  */
-function oidc_keycloak_login_button_text( $text ) {
+function oidc_authentik_login_button_text( $text ) {
 
 	// @var array<mixed> $settings
 	$settings = get_option( 'openid_connect_generic_settings', array() );
 
-	$text = ( ! empty( $settings['oidc_login_button_text'] ) ) ? strval( $settings['oidc_login_button_text'] ) : __( 'Login with Keycloak', 'oidc-keycloak-mu-plugin' );
+	$text = ( ! empty( $settings['oidc_login_button_text'] ) ) ? strval( $settings['oidc_login_button_text'] ) : __( 'Login with Authentik', 'oidc-authentik-mu-plugin' );
 
 	return $text;
 
 }
-add_filter( 'openid-connect-generic-login-button-text', 'oidc_keycloak_login_button_text', 10, 1 );
+add_filter( 'openid-connect-generic-login-button-text', 'oidc_authentik_login_button_text', 10, 1 );
 
 /**
  * Adds a new setting that allows an Administrator to set the button text from
@@ -44,13 +44,13 @@ add_filter( 'openid-connect-generic-login-button-text', 'oidc_keycloak_login_but
  *
  * @return array<mixed>
  */
-function oidc_keycloak_add_login_button_text_setting( $fields ) {
+function oidc_authentik_add_login_button_text_setting( $fields ) {
 
 	// @var array<mixed> $field_array
 	$field_array = array(
 		'oidc_login_button_text' => array(
-			'title'       => __( 'Login Button Text', 'oidc-keycloak-mu-plugin' ),
-			'description' => __( 'Set the login button label text.', 'oidc-keycloak-mu-plugin' ),
+			'title'       => __( 'Login Button Text', 'oidc-authentik-mu-plugin' ),
+			'description' => __( 'Set the login button label text.', 'oidc-authentik-mu-plugin' ),
 			'type'        => 'text',
 			'section'     => 'client_settings',
 		),
@@ -60,7 +60,7 @@ function oidc_keycloak_add_login_button_text_setting( $fields ) {
 	return $field_array + $fields;
 
 }
-add_filter( 'openid-connect-generic-settings-fields', 'oidc_keycloak_add_login_button_text_setting', 10, 1 );
+add_filter( 'openid-connect-generic-settings-fields', 'oidc_authentik_add_login_button_text_setting', 10, 1 );
 
 /**
  * Setting to indicate whether an IDP role mapping is required for user creation.
@@ -71,11 +71,11 @@ add_filter( 'openid-connect-generic-settings-fields', 'oidc_keycloak_add_login_b
  *
  * @return array<mixed>
  */
-function oidc_keycloak_add_require_idp_role_setting( $fields ) {
+function oidc_authentik_add_require_idp_role_setting( $fields ) {
 
 	$fields['require_idp_user_role'] = array(
-		'title'       => __( 'Valid IDP User Role Required', 'oidc-keycloak-mu-plugin' ),
-		'description' => __( 'When enabled, this will prevent users from being created if they don\'t have a valid mapped IDP to WordPress role.', 'oidc-keycloak-mu-plugin' ),
+		'title'       => __( 'Valid IDP User Role Required', 'oidc-authentik-mu-plugin' ),
+		'description' => __( 'When enabled, this will prevent users from being created if they don\'t have a valid mapped IDP to WordPress role.', 'oidc-authentik-mu-plugin' ),
 		'type'        => 'checkbox',
 		'section'     => 'user_settings',
 	);
@@ -83,7 +83,7 @@ function oidc_keycloak_add_require_idp_role_setting( $fields ) {
 	return $fields;
 
 }
-add_filter( 'openid-connect-generic-settings-fields', 'oidc_keycloak_add_require_idp_role_setting', 10, 1 );
+add_filter( 'openid-connect-generic-settings-fields', 'oidc_authentik_add_require_idp_role_setting', 10, 1 );
 
 /**
  * Adds a new setting that allows configuration of the default role assigned
@@ -95,7 +95,7 @@ add_filter( 'openid-connect-generic-settings-fields', 'oidc_keycloak_add_require
  *
  * @return array<mixed>
  */
-function oidc_keycloak_add_default_role_setting( $fields ) {
+function oidc_authentik_add_default_role_setting( $fields ) {
 
 	// @var WP_Roles $wp_roles_obj
 	$wp_roles_obj = wp_roles();
@@ -106,8 +106,8 @@ function oidc_keycloak_add_default_role_setting( $fields ) {
 
 	// Setting to specify default user role when no role is provided by the IDP.
 	$fields['default_user_role'] = array(
-		'title'       => __( 'Default New User Role', 'oidc-keycloak-mu-plugin' ),
-		'description' => __( 'Set the default role assigned to users when the IDP doesn\'t provide a role.', 'oidc-keycloak-mu-plugin' ),
+		'title'       => __( 'Default New User Role', 'oidc-authentik-mu-plugin' ),
+		'description' => __( 'Set the default role assigned to users when the IDP doesn\'t provide a role.', 'oidc-authentik-mu-plugin' ),
 		'type'        => 'select',
 		'options'     => $roles,
 		'section'     => 'user_settings',
@@ -116,7 +116,7 @@ function oidc_keycloak_add_default_role_setting( $fields ) {
 	return $fields;
 
 }
-add_filter( 'openid-connect-generic-settings-fields', 'oidc_keycloak_add_default_role_setting', 10, 1 );
+add_filter( 'openid-connect-generic-settings-fields', 'oidc_authentik_add_default_role_setting', 10, 1 );
 
 /**
  * Adds new settings that allows mapping IDP roles to WordPress roles.
@@ -127,7 +127,7 @@ add_filter( 'openid-connect-generic-settings-fields', 'oidc_keycloak_add_default
  *
  * @return array<mixed>
  */
-function oidc_keycloak_role_mapping_setting( $fields ) {
+function oidc_authentik_role_mapping_setting( $fields ) {
 
 	// @var WP_Roles $wp_roles_obj
 	$wp_roles_obj = wp_roles();
@@ -136,9 +136,9 @@ function oidc_keycloak_role_mapping_setting( $fields ) {
 
 	foreach ( $roles as $role ) {
 		$fields[ 'oidc_idp_' . strtolower( $role ) . '_roles' ] = array(
-			'title'       => sprintf( __( 'IDP Role for WordPress %ss', 'oidc-keycloak-mu-plugin' ), $role ),
+			'title'       => sprintf( __( 'IDP Role for WordPress %ss', 'oidc-authentik-mu-plugin' ), $role ),
 			'description' => sprintf(
-				__( 'Semi-colon(;) separated list of IDP roles to map to the %s WordPress role', 'oidc-keycloak-mu-plugin' ),
+				__( 'Semi-colon(;) separated list of IDP roles to map to the %s WordPress role', 'oidc-authentik-mu-plugin' ),
 				$role
 			),
 			'type'        => 'text',
@@ -149,7 +149,7 @@ function oidc_keycloak_role_mapping_setting( $fields ) {
 	return $fields;
 
 }
-add_filter( 'openid-connect-generic-settings-fields', 'oidc_keycloak_role_mapping_setting', 10, 1 );
+add_filter( 'openid-connect-generic-settings-fields', 'oidc_authentik_role_mapping_setting', 10, 1 );
 
 /**
  * Determine whether user should be created using plugin settings & IDP identity.
@@ -159,7 +159,7 @@ add_filter( 'openid-connect-generic-settings-fields', 'oidc_keycloak_role_mappin
  *
  * @return bool
  */
-function oidc_keycloak_user_creation_test( $result, $user_claim ) {
+function oidc_authentik_user_creation_test( $result, $user_claim ) {
 
 	// @var array<mixed> $settings
 	$settings = get_option( 'openid_connect_generic_settings', array() );
@@ -190,7 +190,7 @@ function oidc_keycloak_user_creation_test( $result, $user_claim ) {
 	return $result;
 
 }
-add_filter( 'openid-connect-generic-user-creation-test', 'oidc_keycloak_user_creation_test', 10, 2 );
+add_filter( 'openid-connect-generic-user-creation-test', 'oidc_authentik_user_creation_test', 10, 2 );
 
 /**
  * Set user role on based on IDP role after authentication.
@@ -200,7 +200,7 @@ add_filter( 'openid-connect-generic-user-creation-test', 'oidc_keycloak_user_cre
  *
  * @return void
  */
-function oidc_keycloak_map_user_role( $user, $user_claim ) {
+function oidc_authentik_map_user_role( $user, $user_claim ) {
 
 	// @var WP_Roles $wp_roles_obj
 	$wp_roles_obj = wp_roles();
@@ -233,5 +233,5 @@ function oidc_keycloak_map_user_role( $user, $user_claim ) {
 	}
 
 }
-add_action( 'openid-connect-generic-update-user-using-current-claim', 'oidc_keycloak_map_user_role', 10, 2 );
-add_action( 'openid-connect-generic-user-create', 'oidc_keycloak_map_user_role', 10, 2 );
+add_action( 'openid-connect-generic-update-user-using-current-claim', 'oidc_authentik_map_user_role', 10, 2 );
+add_action( 'openid-connect-generic-user-create', 'oidc_authentik_map_user_role', 10, 2 );
